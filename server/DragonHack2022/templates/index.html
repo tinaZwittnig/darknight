@@ -1,0 +1,14 @@
+{{ light }}
+{{ passes }}
+{% for pass in passes %}
+    temp:{{ pass.temperature }}<br>
+    humiditi:{{ pass.humidity }}<br>
+    air:{{ pass.air_quality }}<br>
+    brightness:{{ pass.brightness }}
+{% endfor %}
+{{ passes_by_hour }}
+{{ views }}
+{{ views_by_hour }}
+{{ sleep_time }}<br>
+C02: {{ CO2 }}kg<br>
+trees: {{ trees }}

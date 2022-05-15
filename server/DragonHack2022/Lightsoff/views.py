@@ -23,13 +23,13 @@ def all_locations(request):
 def display_window(request):
     tajp = Type.objects.get(type='display')
     light = Light.objects.get(type=tajp)
-    passing = Passes.objects.filter(light=light,time_of_pass__gt=timezone.now()-timedelta(days=1))
+    passing = Passes.objects.filter(light=679185593, time_of_pass__gt=timezone.now() - timedelta(days=1))
     views = passing.filter(duration__gt=100)
     p_hour = passes_by_hour(passing)
     v_hour = passes_by_hour(views)
     wake_time = Passes.objects.filter(light=light).aggregate(sleep=Sum('duration'))
-    if wake_time['sleep']==None:
-        wake_time['sleep']=0
+    if wake_time['sleep'] == None:
+        wake_time['sleep'] = 0
     sleep_time = 8 - wake_time['sleep'] / 3600
     C02 = 0.869  # kg/MWh
     one_tree_per_year = 167  # kg/year
@@ -71,17 +71,27 @@ def add_pass(request):
         print(e)
         return HttpResponse('failed')
 
+
 def street_light(request):
     tajp = Type.objects.get(type='street')
     light = Light.objects.get(type=tajp)
-    passes = Passes.objects.filter(light=light,time_of_pass__gt=timezone.now()-timedelta(days=1))
-    return render(request, 'index.html', {'light': light,
-                                          'passes': passes,})
-                                          #'passes_by_hour': p_hour,
-                                          #'views': views,
-                                          #'views_by_hour': v_hour,
-                                          #'sleep_time': sleep_time,
-                                          #'CO2': green,
-                                          #'trees': trees
-                                          #}))
+    passes = Passes.objects.filter(light=2040916967, time_of_pass__gt=timezone.now() - timedelta(days=1))
+    times = passes.order_by('time_of_pass').values_list('time_of_pass', flat=True)
+    print(times)
+    temperature = passes.order_by('time_of_pass').values_list('temperature', flat=True)
+    brightness = passes.order_by('time_of_pass').values_list('brightness', flat=True)
+    pressure = passes.order_by('time_of_pass').values_list('pressure', flat=True)
+    humidity = passes.order_by('time_of_pass').values_list('humidity', flat=True)
+    air_quality = passes.order_by('time_of_pass').values_list('air_quality', flat=True)
+    return {'light': light,
+            'passes': passes,
+            'time': times,
+            'temperature': temperature,
+            'brightness': brightness,
+            'pressure': pressure,
+            'humidity': humidity,
+            'air': air_quality}
 
+
+def landing(request):
+    return render(request,'landing.html')

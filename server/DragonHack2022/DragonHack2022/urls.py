@@ -21,6 +21,7 @@ urlpatterns = [
     path('locations', views.all_locations, name='Locations'),
     path('passes/', views.display_window, name='passes'),
     path('quality/',views.street_light,name='street'),
-    path('add/pass/', views.add_pass, name='ass_pass')
+    path('add/pass/', views.add_pass, name='ass_pass'),
+    path('', views.landing, name='landing')
 
 ]

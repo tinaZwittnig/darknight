@@ -39,7 +39,7 @@
         <div class="col s6 offset-s6">
           <div class="card black">
             <div class="card-content white-text">
-              <p style="font-family:Bauhaus93">mobistekla.si</p>
+              <h1 style="font-family:Bauhaus93">mobistekla.si</h1>
             </div>
           </div>
         </div>
@@ -48,9 +48,7 @@
     <div class="col s6 offset-s6">
       <div class="card black">
         <div class="card-content white-text">
-          <span class="card-title">Prvi graf</span>
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
+          <span class="card-title">Number of views today:</span>
             <canvas id="myChart" width="400" height="200"></canvas>
 
         </div>
@@ -64,6 +62,7 @@
           <span class="card-title">Drugi graf</span>
           <p>I am a very simple card. I am good at containing small bits of information.
           I am convenient because I require little markup to use effectively.</p>
+            <canvas id="myChart2" width="400" height="200"></canvas>
         </div>
       </div>
     </div>
@@ -79,6 +78,41 @@
             labels: ['pon', 'tor', 'sre', 'čet', 'pet'],
             datasets: [{
                 label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['pon', 'tor', 'sre', 'čet', 'pet'],
+            datasets: [{
+                label: 'neki neki',
                 data: [12, 19, 3, 5, 2, 3],
                 backgroundColor: [
                     '#ffd64e',

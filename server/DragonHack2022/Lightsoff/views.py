@@ -79,11 +79,12 @@ def street_light(request):
     passes = Passes.objects.filter(light=light, time_of_pass__gt=timezone.now() - timedelta(days=1))
     times = [str(i.hour) + ":" + str(i.minute) for i in
              passes.order_by('time_of_pass').values_list('time_of_pass', flat=True)]
-    temperature = [i for i in passes.order_by('time_of_pass').values_list('temperature', flat=True)]
-    brightness = [i for i in passes.order_by('time_of_pass').values_list('brightness', flat=True)]
-    pressure = [i for i in passes.order_by('time_of_pass').values_list('pressure', flat=True)]
-    humidity = [i for i in passes.order_by('time_of_pass').values_list('humidity', flat=True)]
-    air_quality = [i for i in passes.order_by('time_of_pass').values_list('air_quality', flat=True)]
+    temperature = [float(i) for i in passes.order_by('time_of_pass').values_list('temperature', flat=True) if i is not None]
+    brightness = [float(i) for i in passes.order_by('time_of_pass').values_list('brightness', flat=True) if i is not None]
+    pressure = [float(i) for i in passes.order_by('time_of_pass').values_list('pressure', flat=True) if i is not None]
+    humidity = [float(i) for i in passes.order_by('time_of_pass').values_list('humidity', flat=True) if i is not None]
+    air_quality = [float(i) for i in passes.order_by('time_of_pass').values_list('air_quality', flat=True) if i is not None]
+    print(pressure)
     return {'street_light': light,
             'passes_street': passes,
             'time': times,

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark Knight</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+          integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+            integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+            crossorigin=""></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style>
+        body {
+            background-image: url('01a-ozadje6.jpg');
+            background-repeat: no-repeat;
+            font-family: 'Montserrat', sans-serif;
+        }
+        @font-face {
+            font-family: Bauhaus93;
+            src: url(BAUHS93.ttf);
+            font-size: 100px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="map" style="height:350px ; width:500px ; margin-left: 500px ; margin-top: 300px "></div>
+<!--
+<div class="container">
+<div class="row">
+   <div class="col s6 offset-s6">
+     <div class="card black">
+       <div class="card-content white-text">
+         <p style="font-family:Bauhaus93">mobistekla.si</p>
+       </div>
+     </div>
+   </div>
+ </div>
+<div class="row">
+<div class="col s6 offset-s6">
+ <div class="card black">
+   <div class="card-content white-text">
+     <span class="card-title">Prvi graf</span>
+     <p>I am a very simple card. I am good at containing small bits of information.
+     I am convenient because I require little markup to use effectively.</p>
+
+   </div>
+ </div>
+</div>
+</div>
+   <div class="row">
+<div class="col s6 offset-s6">
+ <div class="card black">
+   <div class="card-content white-text">
+     <span class="card-title">Drugi graf</span>
+     <p>I am a very simple card. I am good at containing small bits of information.
+     I am convenient because I require little markup to use effectively.</p>
+   </div>
+ </div>
+</div>
+</div>
+</div>
+-->
+
+</body>
+<script>
+    var map = L.map('map').setView([46.050684, 14.502548], 13);
+
+    var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+</script>
+</html>

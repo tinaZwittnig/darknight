@@ -1,10 +1,12 @@
 #include <painlessMesh.h>
 
 // mesh network configuration macros
-#define   MESH_SSID       "darkNet"
-#define   MESH_PASSWORD   "simislu"
-#define   MESH_PORT       5555
-#define EDGE_NODE_ID      4193624932
+#define   MESH_SSID           "darkNet"
+#define   MESH_PASSWORD       "simislu"
+#define   MESH_PORT           5555
+#define   EDGE_NODE_ID        4193624932
+#define   NEIGHBOUR_LIGHT_ID  3214774457
+
 
 // PIR sensor macros
 #define LOW_COUNTER_LIMIT 5
@@ -25,9 +27,11 @@ void sensorReader();
 
 
 
-// global counter definitions
+// global counters and flags
 static long highCounter = 0;
 static long lowCounter = 0;
+static bool allreadyNotified = 0;
+
 
 // init scheduler and mesh
 Scheduler mainScheduler;
@@ -68,6 +72,11 @@ void sensorReader() {
         lowCounter = 0;
         // turn on the light
         digitalWrite(RELAY_PIN, 1);
+        // send signal to neighbour light
+        if (allreadyNotified == 0) {
+            mesh.sendSingle(NEIGHBOUR_LIGHT_ID, "Turn on!");
+            allreadyNotified = 1;
+        }
     } else {
         lowCounter += 1;
     }
@@ -78,6 +87,8 @@ void sensorReader() {
         highCounter = 0;
         // turn of the light
         digitalWrite(RELAY_PIN, 0);
+        // clear allreadyNotified flag
+        allreadyNotified = 0;
     }
 
     if (highCounter > 10 && lowCounter > 2) {

@@ -5,25 +5,33 @@
 #define   MESH_PORT       5555
 #define   RELAY_PIN       12
 #define   LIGHT_DELAY     100
-#define EDGE_NODE_ID        4193624932
+#define   EDGE_NODE_ID    4193624932
 
 
-// Prototypes
+// forward declarations
 void sendMessage();
-void receivedCallback(uint32_t from, String & msg);
+
+void receivedCallback(uint32_t from, String &msg);
+
 void changedConnectionCallback();
+
 void delayWorker();
+
 void sendHeartbeat();
 
-Scheduler     mainScheduler; // to control your personal task
-painlessMesh  mesh;
+
+// init scheduler and mesh
+Scheduler mainScheduler;
+painlessMesh mesh;
 
 bool calc_delay = false;
-SimpleList<uint32_t> nodes;
+SimpleList <uint32_t> nodes;
 long lightOn = 0;
 
-Task delayWorkerTask( 100, TASK_FOREVER, &delayWorker );
-Task hartbeatTask( 5000, TASK_FOREVER, &sendHeartbeat );
+
+// start tasks for heartbeat and light timer
+Task delayWorkerTask(100, TASK_FOREVER, &delayWorker);
+Task hartbeatTask(5000, TASK_FOREVER, &sendHeartbeat);
 
 
 void setup() {
@@ -31,9 +39,7 @@ void setup() {
 
     pinMode(RELAY_PIN, OUTPUT);
 
-
-
-    mesh.setDebugMsgTypes(ERROR | DEBUG);  // set before init() so that you can see error messages
+    mesh.setDebugMsgTypes(ERROR | DEBUG);
 
     mesh.init(MESH_SSID, MESH_PASSWORD, &mainScheduler, MESH_PORT);
     mesh.onReceive(&receivedCallback);
@@ -42,7 +48,7 @@ void setup() {
     Serial.print("ID: ");
     Serial.println(mesh.getNodeId());
 
-    mainScheduler.addTask( delayWorkerTask );
+    mainScheduler.addTask(delayWorkerTask);
     delayWorkerTask.enable();
 
 }
@@ -59,7 +65,7 @@ void delayWorker() {
         digitalWrite(RELAY_PIN, 0);
     }
 
-    if ( lightOn > 0) {
+    if (lightOn > 0) {
         lightOn += 1;
     }
 
@@ -72,7 +78,7 @@ void sendHeartbeat() {
 }
 
 
-void receivedCallback(uint32_t from, String & msg) {
+void receivedCallback(uint32_t from, String &msg) {
     Serial.printf("{\"from\": \"%u\", \"msg\":\%s\}\n", from, msg.c_str());
 
     if (from == 679185593) {

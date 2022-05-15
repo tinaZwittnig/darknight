@@ -16,6 +16,8 @@
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
             crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
     <style>
         body {
             background-image: url('01a-ozadje.jpg');
@@ -49,6 +51,8 @@
           <span class="card-title">Prvi graf</span>
           <p>I am a very simple card. I am good at containing small bits of information.
           I am convenient because I require little markup to use effectively.</p>
+            <canvas id="myChart" width="400" height="200"></canvas>
+
         </div>
       </div>
     </div>
@@ -65,5 +69,47 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['pon', 'tor', 'sre', 'čet', 'pet'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+</script>
+
+
+
+
 </body>
 </html>

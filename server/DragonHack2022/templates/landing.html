@@ -18,9 +18,10 @@
     <style>
 
         body {
-            background-image: url('{% static  "pictures/01a-ozadje.jpg"%}');
+            background-image: url('{% static  "pictures/01a-ozadje.png"%}');
             background-repeat: no-repeat;
             font-family: 'Montserrat', sans-serif;
+            background-color: #000000;
         }
         @font-face {
           font-family: Bauhaus93;
@@ -46,9 +47,9 @@
     <div class="col s6 offset-s3">
       <div class="card black">
         <div class="card-content white-text">
-          <span class="card-title">Prvi graf</span>
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
+          <span class="card-title" id="visitors">Number of passing by</span>
+            <p>Lights were turned off for {{ sleep_time }} hours.</p>
+            <p>CO2 saved: {{ CO2 }} kg</p>
             <canvas id="myChart" width="400" height="200"></canvas>
         </div>
       </div>
@@ -58,9 +59,8 @@
     <div class="col s6 offset-s3">
       <div class="card black">
         <div class="card-content white-text">
-          <span class="card-title">Drugi graf</span>
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
+          <span class="card-title" id="visitors">Number of looking in display</span>
+            <canvas id="myChart2" width="400" height="200"></canvas>
         </div>
       </div>
     </div>
@@ -68,13 +68,49 @@
 </div>
 <script>
     const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    var passes_by_hour ={{ passes_by_hour }};
+    var views_by_hour ={{ views_by_hour }}
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['pon', 'tor', 'sre', 'čet', 'pet'],
+            labels: Object.keys(passes_by_hour),
+            datasets: [{
+                label: '# of people passing by',
+                data: passes_by_hour,
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+    const myChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(views_by_hour),
             datasets: [{
                 label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                data: views_by_hour,
                 backgroundColor: [
                     '#ffd64e',
                     '#ffffff'

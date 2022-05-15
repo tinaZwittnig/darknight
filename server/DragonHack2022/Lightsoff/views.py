@@ -22,30 +22,29 @@ def all_locations(request):
 
 def display_window(request):
     tajp = Type.objects.get(type='display')
-    light = Light.objects.get(type=tajp)
-    passing = Passes.objects.filter(light=679185593, time_of_pass__gt=timezone.now() - timedelta(days=1))
-    views = passing.filter(duration__gt=100)
+    light = Light.objects.get(id=679185593)
+    passing = Passes.objects.all(light=light)
+    views = passing.filter(duration__gt=100).count()
     p_hour = passes_by_hour(passing)
     v_hour = passes_by_hour(views)
-    wake_time = Passes.objects.filter(light=light).aggregate(sleep=Sum('duration'))
-    if wake_time['sleep'] == None:
-        wake_time['sleep'] = 0
-    sleep_time = 8 - wake_time['sleep'] / 3600
+    wake_time = [ele.duration for ele in passing]
+    print(wake_time)
+    sleep_time = 8 - sum(wake_time) / 3600
     C02 = 0.869  # kg/MWh
     one_tree_per_year = 167  # kg/year
     one_tree_per_day = one_tree_per_year / 365
     not_comsumed = light.power * sleep_time * 10 ** (-6)
     green = not_comsumed * C02
     trees = green / one_tree_per_day
-    return render(request, 'index.html', {'light': light,
-                                          'passes': passing,
-                                          'passes_by_hour': p_hour,
-                                          'views': views,
-                                          'views_by_hour': v_hour,
-                                          'sleep_time': sleep_time,
-                                          'CO2': green,
-                                          'trees': trees
-                                          })
+    return {'display_light': light,
+            'passes': passing,
+            'passes_by_hour': p_hour,
+            'views': views,
+            'views_by_hour': v_hour,
+            'sleep_time': sleep_time,
+            'CO2': green,
+            'trees': trees
+            }
 
 
 def add_pass(request):
@@ -73,18 +72,18 @@ def add_pass(request):
 
 
 def street_light(request):
-    tajp = Type.objects.get(type='street')
-    light = Light.objects.get(type=tajp)
-    passes = Passes.objects.filter(light=2040916967, time_of_pass__gt=timezone.now() - timedelta(days=1))
-    times = passes.order_by('time_of_pass').values_list('time_of_pass', flat=True)
-    print(times)
-    temperature = passes.order_by('time_of_pass').values_list('temperature', flat=True)
-    brightness = passes.order_by('time_of_pass').values_list('brightness', flat=True)
-    pressure = passes.order_by('time_of_pass').values_list('pressure', flat=True)
-    humidity = passes.order_by('time_of_pass').values_list('humidity', flat=True)
-    air_quality = passes.order_by('time_of_pass').values_list('air_quality', flat=True)
-    return {'light': light,
-            'passes': passes,
+    # tajp = Type.objects.get(type='street')
+    light = Light.objects.get(id=2040916967)
+    passes = Passes.objects.filter(light=light, time_of_pass__gt=timezone.now() - timedelta(days=1))
+    times = [str(i.hour) + ":" + str(i.minute) for i in
+             passes.order_by('time_of_pass').values_list('time_of_pass', flat=True)]
+    temperature = [i for i in passes.order_by('time_of_pass').values_list('temperature', flat=True)]
+    brightness = [i for i in passes.order_by('time_of_pass').values_list('brightness', flat=True)]
+    pressure = [i for i in passes.order_by('time_of_pass').values_list('pressure', flat=True)]
+    humidity = [i for i in passes.order_by('time_of_pass').values_list('humidity', flat=True)]
+    air_quality = [i for i in passes.order_by('time_of_pass').values_list('air_quality', flat=True)]
+    return {'street_light': light,
+            'passes_street': passes,
             'time': times,
             'temperature': temperature,
             'brightness': brightness,
@@ -94,4 +93,7 @@ def street_light(request):
 
 
 def landing(request):
-    return render(request,'landing.html')
+    display = display_window(request)
+    street = street_light(request)
+    both = {**display,**street}
+    return render(request, 'landing.html', both)

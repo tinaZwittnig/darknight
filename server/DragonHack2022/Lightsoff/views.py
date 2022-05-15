@@ -36,14 +36,16 @@ def display_window(request):
     not_comsumed = light.power * sleep_time * 10 ** (-6)
     green = not_comsumed * C02
     trees = green / one_tree_per_day
+    passing_by = passing.count()
     return {'display_light': light,
             'passes': passing,
             'passes_by_hour': p_hour,
             'views': views,
             'views_by_hour': v_hour,
-            'sleep_time': sleep_time,
-            'CO2': green,
-            'trees': trees
+            'sleep_time': str(sleep_time)[:3],
+            'CO2': str(green)[:8],
+            'trees': trees,
+            'passing_by':passing_by
             }
 
 

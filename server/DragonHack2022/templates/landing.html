@@ -38,7 +38,7 @@
         <div class="col s6 offset-s3">
           <div class="card black">
             <div class="card-content white-text">
-              <p style="font-family:Bauhaus93">mobistekla.si</p>
+              <p style="font-family:Bauhaus93">Who stopped by?</p>
             </div>
           </div>
         </div>
@@ -49,7 +49,8 @@
         <div class="card-content white-text">
           <span class="card-title" id="visitors">Number of passing by</span>
             <p>Lights were turned off for {{ sleep_time|truncatechars:3 }} hours.</p>
-            <p>CO2 saved: {{ CO2|truncatechars:4 }} kg</p>
+            <p>CO2 saved: {{ CO2 }} kg</p>
+            <p>There were {{ passing_by }} people passing by.</p>
             <canvas id="myChart" width="400" height="200"></canvas>
         </div>
       </div>
@@ -59,7 +60,8 @@
     <div class="col s6 offset-s3">
       <div class="card black">
         <div class="card-content white-text">
-          <span class="card-title" id="visitors">Number of looking in display</span>
+          <span class="card-title" id="visitors">Number of people looking in display</span>
+            <p>There were {{ views }} people who looked in display.</p>
             <canvas id="myChart2" width="400" height="200"></canvas>
         </div>
       </div>
@@ -109,7 +111,7 @@
         data: {
             labels: Object.keys(views_by_hour),
             datasets: [{
-                label: '# of Votes',
+                label: '# of people which looked in display',
                 data: views_by_hour,
                 backgroundColor: [
                     '#ffd64e',

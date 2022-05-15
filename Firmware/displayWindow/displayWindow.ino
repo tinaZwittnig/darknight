@@ -1,14 +1,17 @@
 #include <painlessMesh.h>
 
 // mesh network configuration macros
-#define   MESH_SSID       "darkNet"
-#define   MESH_PASSWORD   "simislu"
-#define   MESH_PORT       5555
-#define EDGE_NODE_ID      4193624932
+#define   MESH_SSID           "darkNet"
+#define   MESH_PASSWORD       "simislu"
+#define   MESH_PORT           5555
+#define   EDGE_NODE_ID        4193624932
+#define   NEIGHBOUR_LIGHT_ID  3214774457
+
 
 // PIR sensor macros
 #define LOW_COUNTER_LIMIT 5
 #define PIR_PIN           14
+#define RELAY_PIN         12
 
 
 // forward declarations
@@ -24,9 +27,11 @@ void sensorReader();
 
 
 
-// global counter definitions
+// global counters and flags
 static long highCounter = 0;
 static long lowCounter = 0;
+static bool allreadyNotified = 0;
+
 
 // init scheduler and mesh
 Scheduler mainScheduler;
@@ -41,8 +46,9 @@ Task sensorTask(100, TASK_FOREVER, &sensorReader);
 
 void setup() {
     Serial.begin(115200);
-    // start PIR pin as input
+    // start PIR pin as input, relay pin as output
     pinMode(PIR_PIN, INPUT);
+    pinMode(RELAY_PIN, OUTPUT);
 
     // start WiFi mesh
     mesh.setDebugMsgTypes(ERROR | DEBUG);
@@ -64,6 +70,13 @@ void sensorReader() {
     if (pir == 1) {
         highCounter += 1;
         lowCounter = 0;
+        // turn on the light
+        digitalWrite(RELAY_PIN, 1);
+        // send signal to neighbour light
+        if (allreadyNotified == 0) {
+            mesh.sendSingle(NEIGHBOUR_LIGHT_ID, "Turn on!");
+            allreadyNotified = 1;
+        }
     } else {
         lowCounter += 1;
     }
@@ -72,6 +85,10 @@ void sensorReader() {
     if (lowCounter > LOW_COUNTER_LIMIT) {
         lowCounter = 1;
         highCounter = 0;
+        // turn of the light
+        digitalWrite(RELAY_PIN, 0);
+        // clear allreadyNotified flag
+        allreadyNotified = 0;
     }
 
     if (highCounter > 10 && lowCounter > 2) {

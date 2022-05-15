@@ -10,7 +10,7 @@ from .models import *
 def passes_by_hour(passes):
     pass_by_hour = dict()
     for i in range(1, 25):
-        p = Passes.objects.filter(time_of_pass__hour=i).count()
+        p = Passes.objects.filter(time_of_pass__hour=i, light_id=679185593).count()
         pass_by_hour[i] = p
     return pass_by_hour
 
@@ -23,7 +23,7 @@ def all_locations(request):
 def display_window(request):
     tajp = Type.objects.get(type='display')
     light = Light.objects.get(id=679185593)
-    passing = Passes.objects.all(light=light)
+    passing = Passes.objects.filter(light=light)
     views = passing.filter(duration__gt=100).count()
     p_hour = passes_by_hour(passing)
     v_hour = passes_by_hour(views)

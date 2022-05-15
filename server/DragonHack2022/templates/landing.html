@@ -48,8 +48,8 @@
       <div class="card black">
         <div class="card-content white-text">
           <span class="card-title" id="visitors">Number of passing by</span>
-            <p>Lights were turned off for {{ sleep_time }} hours.</p>
-            <p>CO2 saved: {{ CO2 }} kg</p>
+            <p>Lights were turned off for {{ sleep_time|truncatechars:3 }} hours.</p>
+            <p>CO2 saved: {{ CO2|truncatechars:4 }} kg</p>
             <canvas id="myChart" width="400" height="200"></canvas>
         </div>
       </div>

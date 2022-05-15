@@ -84,7 +84,7 @@ def street_light(request):
     pressure = [float(i) for i in passes.order_by('time_of_pass').values_list('pressure', flat=True) if i is not None]
     humidity = [float(i) for i in passes.order_by('time_of_pass').values_list('humidity', flat=True) if i is not None]
     air_quality = [float(i) for i in passes.order_by('time_of_pass').values_list('air_quality', flat=True) if i is not None]
-    print(pressure)
+    print(brightness)
     return {'street_light': light,
             'passes_street': passes,
             'time': times,
@@ -98,5 +98,5 @@ def street_light(request):
 def landing(request):
     display = display_window(request)
     street = street_light(request)
-    both = {**display,**street}
+    both = {**display, **street}
     return render(request, 'landing.html', both)

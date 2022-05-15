@@ -2,6 +2,9 @@ import json
 import time
 import requests
 import serial
+import socketio
+
+sio = socketio.Client()
 
 ser = serial.Serial(
     port='/dev/ttyACM0',
@@ -12,6 +15,8 @@ ser = serial.Serial(
     timeout=1
 )
 
+sio.connect('http://localhost:5000')
+
 while 1:
     x = ser.readline().decode()
     line = x.strip()
@@ -20,12 +25,7 @@ while 1:
             slovar = json.loads(line)
             id_luc = slovar['from']
             vsebina = slovar['msg']
-
-            if 'duration' in vsebina:
-                duration = vsebina['duration']
-            else:
-                duration=0
-
+            duration = vsebina['duration']
             if 'humidity' in vsebina:
                 humidity = vsebina['humidity']
             else:
@@ -34,7 +34,7 @@ while 1:
                 pressure = vsebina['pressure']
             else:
                 pressure = 0
-            if 'brightness' in vsebina:
+            if 'lux' in vsebina:
                 brightness = vsebina['lux']
             else:
                 brightness = 0
@@ -47,3 +47,4 @@ while 1:
                 temperature, brightness, humidity, pressure)
             poslji = requests.get(url)
             print(poslji.text)
+            sio.emit('my response', {'response': 'my response'})

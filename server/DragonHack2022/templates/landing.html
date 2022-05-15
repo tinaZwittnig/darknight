@@ -67,12 +67,78 @@
       </div>
     </div>
   </div>
+    <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card black">
+        <div class="card-content white-text">
+          <span class="card-title" id="visitors">Temperature</span>
+            <canvas id="myChart3" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+     <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card black">
+        <div class="card-content white-text">
+          <span class="card-title" id="visitors">Air Pressure</span>
+            <canvas id="myChart4" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+     <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card black">
+        <div class="card-content white-text">
+          <span class="card-title" id="visitors">Humidity</span>
+            <canvas id="myChart5" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+     <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card black">
+        <div class="card-content white-text">
+          <span class="card-title" id="visitors">Air pollution</span>
+            <canvas id="myChart6" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+         <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card black">
+        <div class="card-content white-text">
+          <span class="card-title" id="visitors">Light pollution</span>
+            <canvas id="myChart7" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 <script>
     const ctx = document.getElementById('myChart').getContext('2d');
     const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const ctx3 = document.getElementById('myChart3').getContext('2d');
+    const ctx4 = document.getElementById('myChart4').getContext('2d');
+    const ctx5 = document.getElementById('myChart5').getContext('2d');
+    const ctx6 = document.getElementById('myChart6').getContext('2d');
+    const ctx7 = document.getElementById('myChart7').getContext('2d');
+
     var passes_by_hour ={{ passes_by_hour }};
-    var views_by_hour ={{ views_by_hour }}
+    var views_by_hour ={{ views_by_hour }};
+    var temperature ={{ temperature }};
+    var pressure ={{ pressure }};
+    var humidity ={{ humidity }};
+    var gas ={{ gas }};
+    var lux ={{ lux }};
+
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -112,6 +178,176 @@
             labels: Object.keys(views_by_hour),
             datasets: [{
                 label: '# of people which looked in display',
+                data: views_by_hour,
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+
+     const myChart3 = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: Object.keys(temperature),
+            datasets: [{
+                label: '# of Votes',
+                data: views_by_hour,
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+
+     const myChart4 = new Chart(ctx4, {
+        type: 'line',
+        data: {
+            labels: Object.keys(pressure),
+            datasets: [{
+                label: '# of Votes',
+                data: views_by_hour,
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+
+    const myChart5 = new Chart(ctx5, {
+        type: 'line',
+        data: {
+            labels: Object.keys(humidity),
+            datasets: [{
+                label: '# of Votes',
+                data: views_by_hour,
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+
+    const myChart6 = new Chart(ctx6, {
+        type: 'line',
+        data: {
+            labels: Object.keys(gas),
+            datasets: [{
+                label: '# of Votes',
+                data: views_by_hour,
+                backgroundColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderColor: [
+                    '#ffd64e',
+                    '#ffffff'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff'
+                    }
+                }
+            }
+    }
+    });
+
+    const myChart7 = new Chart(ctx7, {
+        type: 'line',
+        data: {
+            labels: Object.keys(lux),
+            datasets: [{
+                label: '# of Votes',
                 data: views_by_hour,
                 backgroundColor: [
                     '#ffd64e',

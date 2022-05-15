@@ -43,7 +43,7 @@
         <div class="col s6 offset-s3">
           <div class="card black">
             <div class="card-content white-text">
-              <p style="font-family:Bauhaus93">Who stopped by?</p>
+              <h2 style="font-family:Bauhaus93">Who stopped by?</h2>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
     <div class="col s6 offset-s3">
       <div class="card black">
         <div class="card-content white-text">
-          <span class="card-title" id="visitors">Number of passing by</span>
+          <span class="card-title" id="visitors">Number of people passing by</span>
             <p>Lights were turned off for {{ sleep_time|truncatechars:3 }} hours.</p>
             <p>CO2 saved: {{ CO2 }} kg</p>
             <p>There were {{ passing_by }} people passing by.</p>
@@ -72,8 +72,8 @@
     <div class="col s6 offset-s3">
       <div class="card black">
         <div class="card-content white-text">
-          <span class="card-title" id="visitors">Number of people looking in display</span>
-            <p>There were {{ views }} people who looked in display.</p>
+          <span class="card-title" id="visitors">Number of people looking at the display</span>
+            <p>There were {{ views }} people who looked at the display.</p>
             <canvas id="myChart2" width="400" height="200"></canvas>
         </div>
       </div>
@@ -176,7 +176,7 @@
         data: {
             labels: Object.keys(views_by_hour),
             datasets: [{
-                label: '# of people which looked in display',
+                label: '# of people which looked at the display',
                 data: views_by_hour,
                 backgroundColor: [
                     '#ffd64e',
@@ -210,7 +210,7 @@
         data: {
             labels: Object.keys(temperature),
             datasets: [{
-                label: '# of Votes',
+                label: '°C',
                 data: temperature,
                 backgroundColor: [
                     '#ffd64e',
@@ -244,7 +244,7 @@
         data: {
             labels: Object.keys(pressure),
             datasets: [{
-                label: '# of Votes',
+                label: 'hPa',
                 data: pressure,
                 backgroundColor: [
                     '#ffd64e',
@@ -278,7 +278,7 @@
         data: {
             labels: Object.keys(humidity),
             datasets: [{
-                label: '# of Votes',
+                label: '%',
                 data: humidity,
                 backgroundColor: [
                     '#ffd64e',
@@ -313,7 +313,7 @@
         data: {
             labels: Object.keys(brightness),
             datasets: [{
-                label: '# of Votes',
+                label: 'lux',
                 data: brightness,
                 backgroundColor: [
                     '#ffd64e',
